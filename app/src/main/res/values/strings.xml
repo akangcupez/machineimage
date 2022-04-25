@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Image Machine</string>
+    <string name="home">Home</string>
+    <string name="machine_name">Machine Name</string>
+    <string name="machine_type">Machine Type</string>
+    <string name="last_maintenance_date">Last Maintenance Date</string>
+    <string name="images_0_10">Images: 0 / 10</string>
+    <string name="add_image">Add Image</string>
+    <string name="flash">Flash</string>
+    <string name="machine_code">Machine Code</string>
+    <string name="edit">Edit</string>
+    <string name="delete_machine">Delete Machine</string>
+    <string name="edit_machine">Edit Machine</string>
+    <string name="delete">Delete</string>
+    <string name="add_machine">Add Machine</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="save">Save</string>
+    <string name="error_max_image">Only 10 images are allowed in this machine</string>
+    <string name="preview">Preview Image</string>
+    <string name="image_counter_info">Images: %s / 10</string>
+</resources>
