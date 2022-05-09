@@ -5,15 +5,19 @@ import com.akangcupez.imagemachine.model.dao.MachineDao
 import com.akangcupez.imagemachine.model.entity.Image
 import com.akangcupez.imagemachine.model.entity.Machine
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.singleOrNull
 
 /**
  * @author Aji Subastian (akangcupez@gmail.com) at 4/24/2022 17:08
  */
 class MachineRepository(private val dao: MachineDao) {
 
-    fun getMachineList(sort: String) : Flow<List<Machine>> {
-        return dao.getMachineList(sort)
+    fun getMachineList(sort: String?) : Flow<List<Machine>?> {
+        return when (sort) {
+            "name" -> dao.getMachineListSortByName()
+            "type" -> dao.getMachineListSortByType()
+            "name,type" -> dao.getMachineListSortByNameAndType()
+            else -> dao.getMachineList()
+        }
     }
 
     fun getMachineByCode(code: Long) : Flow<Machine> {

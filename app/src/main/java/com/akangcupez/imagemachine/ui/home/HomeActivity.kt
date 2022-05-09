@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.akangcupez.imagemachine.App
@@ -19,6 +20,7 @@ import com.akangcupez.imagemachine.ui.scanner.QRScannerActivity
 import com.akangcupez.imagemachine.utils.Const
 import com.akangcupez.imagemachine.viewmodel.MachineViewModel
 import com.akangcupez.imagemachine.viewmodel.MachineViewModelFactory
+import com.akangcupez.imagemachine.widget.SortDialog
 import com.google.zxing.client.android.Intents
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -33,7 +35,9 @@ class HomeActivity : BaseActivity() {
     }
 
     private lateinit var mBinding: ActivityHomeBinding
+    private var mLiveData: LiveData<List<Machine>?>? = null
     private lateinit var mAdapter: MachineAdapter
+    private var mSort = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +56,20 @@ class HomeActivity : BaseActivity() {
         populateUI()
     }
 
+    private fun reloadData() {
+        if (mLiveData?.hasObservers() == true) {
+            mLiveData?.removeObservers(this@HomeActivity)
+        }
+
+        mAdapter.submitList(null)
+        mBinding.rvMain.adapter = mAdapter
+
+        loadData()
+    }
+
     private fun loadData() {
-        mViewModel.getMachineList("name,type").observe(this) { machines ->
+        mLiveData = mViewModel.getMachineList(mSort)
+        mLiveData?.observe(this@HomeActivity) { machines ->
             machines?.let {
                 mAdapter.submitList(it)
             }
@@ -113,6 +129,17 @@ class HomeActivity : BaseActivity() {
             .setCaptureActivity(QRScannerActivity::class.java)
     }
 
+    private fun openSortDialog() {
+        val dialog = SortDialog.newInstance(mSort)
+        dialog.show(supportFragmentManager, "SortDialog")
+        dialog.setCallback(object : SortDialog.Callback {
+            override fun onChanged(sort: String) {
+                mSort = sort
+                reloadData()
+            }
+        })
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_home, menu)
@@ -125,9 +152,11 @@ class HomeActivity : BaseActivity() {
                 mScannerLauncher.launch(getScanOptions())
                 true
             }
-            else -> {
-                super.onOptionsItemSelected(item)
+            R.id.menu_sort -> {
+                openSortDialog()
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

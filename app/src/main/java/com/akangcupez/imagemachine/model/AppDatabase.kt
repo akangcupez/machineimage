@@ -12,7 +12,7 @@ import com.akangcupez.imagemachine.model.entity.Machine
  * @author Aji Subastian (akangcupez@gmail.com) at 4/24/2022 17:08
  */
 
-@Database(entities = [Machine::class, Image::class], version = 1, exportSchema = false)
+@Database(entities = [Machine::class, Image::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun machineDao(): MachineDao
@@ -35,7 +35,6 @@ abstract class AppDatabase : RoomDatabase() {
                 instance
             }
         }
-
     }
 
 }

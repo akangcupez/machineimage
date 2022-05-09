@@ -15,7 +15,12 @@
     <string name="add_machine">Add Machine</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="save">Save</string>
+    <string name="sort">Sort</string>
     <string name="error_max_image">Only 10 images are allowed in this machine</string>
     <string name="preview">Preview Image</string>
     <string name="image_counter_info">Images: %s / 10</string>
+    <string name="sort_by">Sort By</string>
+    <string name="name">Name</string>
+    <string name="type">Type</string>
+    <string name="ok">OK</string>
 </resources>

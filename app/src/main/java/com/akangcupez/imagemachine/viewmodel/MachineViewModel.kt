@@ -18,7 +18,7 @@ class MachineViewModel(private val repository: MachineRepository) : ViewModel() 
         mLastMachineId.value = null
     }
 
-    fun getMachineList(sort: String) : LiveData<List<Machine>?> {
+    fun getMachineList(sort: String?) : LiveData<List<Machine>?> {
         return repository.getMachineList(sort).asLiveData()
     }
 

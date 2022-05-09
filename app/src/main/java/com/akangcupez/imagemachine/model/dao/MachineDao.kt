@@ -5,7 +5,6 @@ import com.akangcupez.imagemachine.model.entity.Image
 import com.akangcupez.imagemachine.model.entity.Machine
 import kotlinx.coroutines.flow.Flow
 
-
 /**
  * @author Aji Subastian (akangcupez@gmail.com) at 4/24/2022 13:57
  */
@@ -15,14 +14,23 @@ interface MachineDao {
 
     //Machine
 
-    @Query("SELECT * FROM machine ORDER BY :sort ASC")
-    fun getMachineList(sort: String): Flow<List<Machine>>
+    @Query("SELECT * FROM machine ORDER BY id ASC")
+    fun getMachineList(): Flow<List<Machine>?>
+
+    @Query("SELECT * FROM machine ORDER BY name ASC")
+    fun getMachineListSortByName(): Flow<List<Machine>?>
+
+    @Query("SELECT * FROM machine ORDER BY type ASC")
+    fun getMachineListSortByType(): Flow<List<Machine>?>
+
+    @Query("SELECT * FROM machine ORDER BY type,name ASC")
+    fun getMachineListSortByNameAndType(): Flow<List<Machine>?>
 
     @Query("SELECT * FROM machine WHERE code = :code LIMIT 1")
-    fun getMachineByCode(code: Long) : Flow<Machine>
+    fun getMachineByCode(code: Long): Flow<Machine>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(machine: Machine) : Long
+    suspend fun insert(machine: Machine): Long
 
     @Update
     suspend fun updateMachine(machine: Machine)
@@ -33,7 +41,7 @@ interface MachineDao {
     //Images
 
     @Query("SELECT * FROM image WHERE machineId = :machineId")
-    fun getImageList(machineId: Long) : Flow<List<Image>>
+    fun getImageList(machineId: Long): Flow<List<Image>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertImage(image: Image)
